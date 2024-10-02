@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class User implements UserInterface{
     protected String email;
     protected String password;
     protected String name;
-    private final int type; // 0 for student , 1 for prof , 2 for admin
+    private final int type; // 0 for student , 1 for prof , 2 for admin , 3 for TA
 
     public User(String email, String password,int type) {
         this.email = email;
@@ -51,7 +52,7 @@ public abstract class User implements UserInterface{
     public abstract void addCourse(Course course);
     public abstract void removeCourse(String courseCode);
     public abstract void addFinishedCourse(Course course,int grade);
-    public abstract void registerForCourse(final Course[] courses);
+    public abstract void registerForCourse(final Course[] courses) throws CourseFullException;
     public abstract void addComplaint(Complaint cmp);
     public abstract float calcCG();
     public abstract void setSemester(int semester);
@@ -61,4 +62,8 @@ public abstract class User implements UserInterface{
     // Professor Specific Actions
     public abstract ArrayList<ProfessorCourse> getTeachingCourses();
     public abstract void addCourse(ProfessorCourse course);
+
+    // TA Specific Actions
+    public abstract void addTAcourse(Course course);
+    public abstract List<Course> getCoursesTA();
 }

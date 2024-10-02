@@ -1,3 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Course {
     private final String courseCode;
     private final String courseName;
@@ -7,8 +11,13 @@ public class Course {
     private final int semester;
     private int credits;
     private String location;
+    private int enrollmentLimit;
+    private int enrolled = 0;
 
-    public Course(String courseCode, String courseName, String professor, String[] prerequisites, String[] timings,int semester,int credits, String location) {
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private Date dropDeadline;
+
+    public Course(String courseCode, String courseName, String professor, String[] prerequisites, String[] timings,int semester,int credits, String location,int enrollmentLimit) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.professor = professor;
@@ -17,6 +26,8 @@ public class Course {
         this.semester = semester;
         this.credits = credits;
         this.location = location;
+        this.enrollmentLimit = enrollmentLimit;
+        this.setDropDeadline("2025-01-01");
     }
 
     public String getCourseCode() {
@@ -61,6 +72,36 @@ public class Course {
 
     public String getLocation() {
         return location;
+    }
+
+    public int getEnrollmentLimit() {
+        return enrollmentLimit;
+    }
+
+    public int getEnrolled(){
+        return enrolled;
+    }
+
+    public void enroll(){
+        enrolled++;
+    }
+
+    public void unEnroll(){
+        if(enrolled>0){
+            enrolled--;
+        }
+    }
+
+    public void setDropDeadline(String date) {
+        try {
+            dropDeadline = simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Date getDropDeadline(){
+        return dropDeadline;
     }
 }
 

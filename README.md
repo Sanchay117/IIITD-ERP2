@@ -1,4 +1,4 @@
-# IIITD Course Registration System
+# IIITD Course Registration System v2.0
 
 ## Overview
 This assignment is a terminal-based IIITD Course Registration System developed as part of the. The application allows three types of users—**Students**, **Professors**, and **Administrators**—to perform specific functions related to course registration, management, and student records.
@@ -22,46 +22,28 @@ This assignment is a terminal-based IIITD Course Registration System developed a
 4. **User Login:**
     -After entering the application, it presents users with a login screen where users can log in as a **Student**, **Professor**, or **Administrator**.
 
-## Features
-### Student Functionalities:
-- **View Available Courses:** Students can view courses offered for the current semester, including course details such as the course code, title, instructor, credits, prerequisites, and timings.
-- **Register for Courses:** Students can register for courses if prerequisites are met and within the 20-credit limit.
-- **View Schedule:** View a weekly schedule of registered courses.
-- **Track Academic Progress:** View grades and compute GPA after completing semesters.
-- **Drop Courses:** Drop courses during the ongoing semester.
-- **Submit Complaints:** Submit complaints about issues such as schedule clashes.
+## Incorporation Of Different Features
+### Feedback System Using Generic Programming
+- **Feedback Class**: I created a feedback class first which can either accept an integer rating or a string description
+- **Giving Feedback**: When logged in as a student, the user can select a course which he has completed
+and give either a rating (1-10) or a textual feedback
+- **Professor**: When logged in as a prof, the user can select a course he is teaching and view all the feedbacks
+submitted by various students for that course
+- **Note**: Feedbacks are anonymous
 
-### Professor Functionalities:
-- **Manage Courses:** View and manage course details such as syllabus, timings, and prerequisites.
-- **View Enrolled Students:** View the list of enrolled students and their academic standing.
+### New User Type : Teaching Assistant [TA]
+- **Object Class**: Implemented .equals for comparing two strings
+- **TA Class**: Extends the student class and thus functions exactly as a student, only difference is that a TA
+can select a course he is an assistant for and view the students enrolled in that course and then assign them a grade
+- **Note**: After assigning a grade that course is completed and moved from enrolledCourses for that student to finishedCourses array
+- **Note**: After enrolledCourses is empty the admin can change a student's semester if he passed
 
-### Administrator Functionalities:
-- **Manage Course Catalog:** Add or delete courses from the catalog.
-- **Manage Student Records:** Update student records, grades, and personal information.
-- **Assign Professors to Courses:** Assign professors to courses based on their expertise and availability.
-- **Handle Complaints:** View and resolve student complaints and filter by status.
-
-## Object-Oriented Design
-### Classes and Interfaces:
-- **User (Base Class also implements the User Interface):** Common properties and methods for all user types.
-    - Subclasses: **Student**, **Professor**, and **Administrator**.
-- **Course:** Represents a course with attributes like code, title, credits, etc.
-  - Subclasses: **FinishedCourse** and **ProfessorCourse**.
-- **Complaint:** Handles complaints submitted by students.
-
-### Key OOP Concepts:
-1. **Inheritance:** Student, Professor, and Administrator inherit from the base `User` class.
-2. **Polymorphism:** The `User` reference type is used to handle different user types (i.e, Students/Professors/Admin).
-3. **Encapsulation:** Class properties are private, with access provided through getter and setter methods.
-4. **Abstraction:** The User class is modelled on how a user might behave. And, abstract methods in the `User` class are implemented by its subclasses.
-
-## Assumptions
-- Admin Cannot Be Created Using this system as that would enable students and professors as well to get admin privileges so admins are prepopulated.
-- The system is prepopulated with 3 students which have completed a few courses but not enrolled in any. Also preopulated with 11 courses , 2 professors and an admin,
-- The system does not handle elective/mandatory course categorization.
-- No deadlines for dropping a course.
-- User inputs data of the correct type for example if an integer is asked as input the user is not entering a string for example.
-- After assigning grades to all the courses of a student, only admin can change the student's semester.
+### Improved Exception Handling
+- **Invalid Course Registration**: If enrollment limit of a course is reached when a user registers for it, it throws a CourseFullException which is then caught in Main.java
+- **Invalid Login**: Upon an Invalid Username or Password Main.java throws an InvalidLoginException which is then caught in Main.java itself
+- **Course Drop Failure**: If a student attempts to drop a course after the deadline, a DropDeadlinePassedException is thrown
+- **Note**: By default, there is no deadline for dropping a course (its start of next semester) but I've hardcoded one for a course called ADA and I've also hardcoded a student which has registered for that course so if he attempts to drop it an exception is raised.
+- **Also Note**: I had to hardcode the deadlines since in the first assignment you guys said that deadlines are optional.
 
 ## Credits
 Developed by Sanchay Singh [2023478].

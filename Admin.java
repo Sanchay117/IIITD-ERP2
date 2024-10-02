@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Admin extends User {
@@ -56,4 +57,8 @@ public class Admin extends User {
     public ArrayList<ProfessorCourse> getTeachingCourses() { throw new UnsupportedOperationException(); }
     @Override
     public void addCourse(ProfessorCourse crse) {throw new UnsupportedOperationException();}
+
+    // Dummy Methods TA.java uses
+    public void addTAcourse(Course course){ throw new UnsupportedOperationException(); }
+    public List<Course> getCoursesTA(){ throw new UnsupportedOperationException(); }
 }

@@ -1,4 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.time.*;
 
 public class Main {
     private static Course[] courses; // All courses offered by the University
@@ -7,6 +10,17 @@ public class Main {
     private static User user;
     private static final String adminPass = "ROOT_ACCESS";
     private static final List<Feedback<?>> feedbacks = new ArrayList<>();
+
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final Date today;
+
+    static {
+        try {
+            today = simpleDateFormat.parse("2024-10-02");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static void printDashes(){
         System.out.println("----------------------------------------------------------------------------------");
@@ -31,39 +45,41 @@ public class Main {
 
         // Adding Courses
         Course M4 = new Course("MTH204", "Differential Equations", "Ashish Kumar Pandey", new String[]{"MTH203"},
-                new String[]{"", "11:00-12:30", "", "11:00-12:30", ""}, 4,4,"LHC201");
+                new String[]{"", "11:00-12:30", "", "11:00-12:30", ""}, 4,4,"LHC201",-1);
 
         Course AA1 = new Course("MTH212", "Abstract Algebra-I", "Sneha Chaubey", new String[]{},
-                new String[]{"", "", "9:30-11:00", "", "11:00-12:30"}, 4,4,"LHC102");
+                new String[]{"", "", "9:30-11:00", "", "11:00-12:30"}, 4,4,"LHC102",-1);
 
         Course ADA = new Course("CSE222", "Algorithm Design And Analysis", "Supratim Shit", new String[]{"CSE102"},
-                new String[]{"15:00-16:30", "", "15:00-16:30", "", ""}, 4,4,"LHC101");
+                new String[]{"15:00-16:30", "", "15:00-16:30", "", ""}, 4,4,"LHC101",1);
 
         Course ToC = new Course("CSE322", "Theory Of Computation", "Syamantak Das", new String[]{"CSE121"},
-                new String[]{"", "15:00-16:30", "", "15:00-16:30", ""}, 4,4,"LHC219");
+                new String[]{"", "15:00-16:30", "", "15:00-16:30", ""}, 4,4,"LHC219",-1);
 
         Course DBMS = new Course("CSE202", "Fundamentals Of Database Management Systems", "Vikram Goyal", new String[]{"CSE102"},
-                new String[]{"11:00-12:30", "", "11:00-12:30", "", ""}, 4,4,"C01");
+                new String[]{"11:00-12:30", "", "11:00-12:30", "", ""}, 4,4,"C01",-1);
 
         Course DSA = new Course("CSE102", "Data Structures And Algorithms", "Debarka Sengupta", new String[]{"CSE101"},
-                new String[]{"", "", "9:30-11:00", "", "11:00-12:30"}, 2,4,"B003");
+                new String[]{"", "", "9:30-11:00", "", "11:00-12:30"}, 2,4,"B003",-1);
 
         Course PandS = new Course("MTH201", "Probability And Statistics", "Sanjit Kaul", new String[]{},
-                new String[]{"9:30-10:30", "16:30-17:30", "", "16:30-17:30", ""}, 2,4,"A007");
+                new String[]{"9:30-10:30", "16:30-17:30", "", "16:30-17:30", ""}, 2,4,"A007",-1);
 
         Course IP = new Course("CSE101", "Introduction To Programming", "Shad Akhtar", new String[]{},
-                new String[]{"9:30-11:00", "", "9:30-11:00", "", ""}, 1,4,"LHC201");
+                new String[]{"9:30-11:00", "", "9:30-11:00", "", ""}, 1,4,"LHC201",-1);
 
         Course HCI = new Course("DES102", "Introduction To Human Computer Interaction", "Sonal Keshwani", new String[]{},
-                new String[]{"", "9:30-11:00", "", "9:30-11:00", ""}, 1,4,"LHC201");
+                new String[]{"", "9:30-11:00", "", "9:30-11:00", ""}, 1,4,"LHC201",-1);
 
         Course AP = new Course("CSE201", "Advanced Programming", "Arun Balaji Buduru", new String[]{"CSE101","CSE102"},
-                new String[]{"15:00-16:30", "", "15:00-16:30", "", ""}, 3,4,"LHC201");
+                new String[]{"15:00-16:30", "", "15:00-16:30", "", ""}, 3,4,"LHC201",-1);
 
         Course OS = new Course("CSE231", "Operating Systems", "Vivek Kumar", new String[]{"CSE102"},
-                new String[]{"", "15:00-16:30", "", "15:00-16:30", ""}, 3,4,"C21");
+                new String[]{"", "15:00-16:30", "", "15:00-16:30", ""}, 3,4,"C21",-1);
 
         courses = new Course[]{M4,AA1,ADA,ToC,DBMS,DSA,PandS,IP,HCI,AP,OS};
+
+        ADA.setDropDeadline("2024-10-01");
 
         // Adding Students
         Student s1 = new Student("sanchay23478@iiitd.ac.in","1234",4);
@@ -75,6 +91,8 @@ public class Main {
         s1.addFinishedCourse(PandS,8);
         s1.addFinishedCourse(AP,10);
         s1.addFinishedCourse(OS,10);
+        s1.addCourse(ADA);
+        s1.addCourse(ToC);
 
         s2.addFinishedCourse(IP,9);
         s2.addFinishedCourse(HCI,10);
@@ -82,6 +100,7 @@ public class Main {
         s2.addFinishedCourse(PandS,9);
         s2.addFinishedCourse(AP,9);
         s2.addFinishedCourse(OS,8);
+//        s2.addCourse(ADA);
 
         s3.addFinishedCourse(IP,6);
         s3.addFinishedCourse(HCI,7);
@@ -110,6 +129,16 @@ public class Main {
         s2.addComplaint(cmp1);
         addComplaint(cmp1);
         addComplaint(cmp2);
+
+        // adding TA
+        TA t1 = new TA("ayush22062@iiitd.ac.in","foo",5);
+        t1.addFinishedCourse(ToC,10);
+        t1.addFinishedCourse(DBMS,10);
+        t1.addFinishedCourse(ADA,10);
+
+        t1.addTAcourse(ToC);
+        t1.addTAcourse(ADA);
+        users.add(t1);
 
         // Prepopulating Finished
     }
@@ -179,7 +208,7 @@ public class Main {
 
                         boolean flagUserNotFound = true;
                         for(User user : users){
-                            if(user.getType()==0 && Objects.equals(user.getEmail(), email)){
+                            if((user.getType()==0 || user.getType()==3) && Objects.equals(user.getEmail(), email)){
                                 flagUserNotFound = false;
                                 break;
                             }
@@ -216,14 +245,18 @@ public class Main {
                     String email = scanner.nextLine();
                     boolean flagUserNotFound = true;
                     for(User student : users){
-                        if(student.getType()==0 && Objects.equals(student.getEmail(), email)){
+                        if((student.getType()==0 || student.getType()==3) && Objects.equals(student.getEmail(), email)){
                             flagUserNotFound = false;
                             break;
                         }
                     }
                     if(flagUserNotFound) {
-                        System.out.println("No Such User Exists");
-                        continue;
+                        try{
+                            throw new InvalidLoginException("No Such User");
+                        }catch (InvalidLoginException e){
+                            System.out.println("Invalid Login: "+ e.getMessage());
+                            continue;
+                        }
                     }
 
                     System.out.print("Please Enter Your Password: ");
@@ -239,8 +272,12 @@ public class Main {
                         }
                     }
                     if(flagPassword){
-                        System.out.println("Incorrect Password");
-                        continue;
+                        try{
+                            throw new InvalidLoginException("Wrong Password");
+                        }catch (InvalidLoginException e){
+                            System.out.println("Invalid Login: "+ e.getMessage());
+                            continue;
+                        }
                     }
 
                     break;
@@ -295,7 +332,14 @@ public class Main {
                         }
                     }
                     else if(student_action == 2){
-                        user.registerForCourse(courses);
+                        try {
+                            user.registerForCourse(courses);
+                        }catch (CourseFullException e){
+                            printDashes();
+                            System.out.println("ERROR!");
+                            System.out.println(e.getMessage());
+                        }
+
                     }
                     else if(student_action == 3){
                         printDashes();
@@ -391,18 +435,31 @@ public class Main {
                                 cnt++;
                             }
 
-                            System.out.println("Please Enter Course Code of The Course You Want To Drop:");
+                            System.out.println("Please Enter Course Code of The Course You Want To Drop (or enter invalid code to exit):");
                             String courseCode = scanner.nextLine();
+                            Course crse = null;
 
                             boolean flagCourseExists = false;
                             for(Course course : enrolled){
                                 if(Objects.equals(course.getCourseCode(), courseCode)){
                                     flagCourseExists = true;
+                                    crse = course;
                                 }
                             }
                             if(!flagCourseExists){
                                 System.out.println("Not Enrolled in This Course");
                                 break;
+                            }
+                            try{
+                                if(today.after(crse.getDropDeadline())){
+                                    throw new DropDeadlinePassedException();
+                                }
+                            } catch (DropDeadlinePassedException e) {
+                                printDashes();
+                                System.out.println("ERROR");
+                                System.out.println(e.getMessage());
+                                printDashes();
+                                continue;
                             }
                             user.removeCourse(courseCode);
                             System.out.println("Successfully Dropped "+courseCode);
@@ -490,12 +547,98 @@ public class Main {
                         System.out.println("Feedback Submitted");
                         printDashes();
                     }
-                    else if(student_action == 9){
+                    if(user.getType()==0){
+                        if(student_action == 9){
+                            printDashes();
+                            System.out.println("Logged Out!");
+                            printDashes();
+                            break;
+                        }
+                    }
+
+                    // TA actions
+                    if(student_action==9){
+                        printDashes();
+
+                        System.out.println("Select Course You are TA Of:");
+                        int i = 1;
+                        printDashes();
+                        for(Course course:user.getCoursesTA()){
+                            System.out.println(i+"."+course.getCourseCode()+"-"+course.getCourseName());
+                            i++;
+                        }
+                        printDashes();
+                        int chosenCourse;
+                        while (true){
+                            System.out.println("Enter Number Of Course: ");
+                            scanner = new Scanner(System.in);
+                            chosenCourse = scanner.nextInt();
+                            scanner.nextLine();
+                            if(chosenCourse<1 || chosenCourse>user.getCoursesTA().size()){
+                                System.out.println("Invalid Course");
+                                continue;
+                            }
+                            break;
+                        }
+
+                        String code = user.getCoursesTA().get(chosenCourse - 1).getCourseCode();
+                        Course crse = user.getCoursesTA().get(chosenCourse - 1);
+                        printDashes();
+
+                        List<User> students = new ArrayList<User>();
+                        for(User u:users){
+                            if((u.getType()==0 || u.getType()==3)){
+                                for(Course c:u.getEnrolledCourses()){
+                                    if(Objects.equals(code, c.getCourseCode())){
+                                        students.add( u);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        System.out.println("Students In Your Selected Course:");
+                        printDashes();
+                        int j = 1;
+                        for(User u:students){
+                            System.out.println(j+"."+u.getName()+"-"+u.getEmail());
+                            j++;
+                        }
+                        printDashes();
+
+                        int chosenStd;
+                        while (true){
+                            System.out.println("Enter Number Of Student:");
+                            scanner = new Scanner(System.in);
+                            chosenStd = scanner.nextInt();
+                            scanner.nextLine();
+                            if(chosenStd<1 || chosenStd>students.size()){
+                                System.out.println("Invalid Student");
+                                continue;
+                            }
+                            break;
+                        }
+
+                        User chosenStudent = students.get(chosenStd-1);
+                        System.out.println("Enter Grade:");
+                        scanner = new Scanner(System.in);
+                        int grade = scanner.nextInt();
+                        if(grade<0 || grade>10){
+                            System.out.println("Invalid Grade");
+                            continue;
+                        }
+                        scanner.nextLine();
+                        chosenStudent.addFinishedCourse(crse,grade);
+                        chosenStudent.removeCourse(crse);
+
+                        printDashes();
+                    }else if(student_action==10){
                         printDashes();
                         System.out.println("Logged Out!");
                         printDashes();
                         break;
                     }
+
                 }
             }
             else if(choice2==2){
@@ -560,8 +703,12 @@ public class Main {
                         }
                     }
                     if(flagUserNotFound) {
-                        System.out.println("No Such User Exists");
-                        continue;
+                        try{
+                            throw new InvalidLoginException("No Such User");
+                        }catch (InvalidLoginException e){
+                            System.out.println("Invalid Login: "+ e.getMessage());
+                            continue;
+                        }
                     }
 
                     System.out.print("Please Enter Your Password: ");
@@ -577,8 +724,12 @@ public class Main {
                         }
                     }
                     if(flagPassword){
-                        System.out.println("Incorrect Password");
-                        continue;
+                        try{
+                            throw new InvalidLoginException("Wrong Password");
+                        }catch (InvalidLoginException e){
+                            System.out.println("Invalid Login: "+ e.getMessage());
+                            continue;
+                        }
                     }
 
                     break;
@@ -730,7 +881,7 @@ public class Main {
 
                         System.out.println("Enrolled Students In Your Courses:");
                         for(User use:users){
-                            if(use.getType()==0){
+                            if(use.getType()==0 || use.getType()==3){
                                 Course[] enrolled = use.getEnrolledCourses();
                                 for(Course course:enrolled){
                                     if(freqMap.containsKey(course.getCourseCode()) && !studMap.containsKey(use.getEmail())){
@@ -774,7 +925,13 @@ public class Main {
                     System.out.print("Enter Admin Password:");
                     scanner = new Scanner(System.in);
                     String password = scanner.nextLine();
-                    if(!Objects.equals(password, adminPass)) System.out.println("Invalid Password");
+                    if(!Objects.equals(password, adminPass)) {
+                        try{
+                            throw new InvalidLoginException("Invalid Password");
+                        }catch (InvalidLoginException e){
+                            System.out.println("Invalid Login "+ e.getMessage());
+                        }
+                    }
                     else break;
                 }
 
@@ -855,6 +1012,9 @@ public class Main {
                                 String location = scanner.nextLine();
                                 System.out.print("Enter Instructor:");
                                 String instructor = scanner.nextLine();
+                                System.out.print("Enter Enrollment Limit (-1 for no limit):");
+                                int limit = scanner.nextInt();
+                                scanner.nextLine();
 
                                 String[] timings = {"","","","",""};
                                 String x;
@@ -876,7 +1036,7 @@ public class Main {
                                 x = scanner.nextLine();
                                 timings[4]=x;
 
-                                Course addedCourse = new Course(courseCode,courseName,instructor, new String[]{prerequisites},timings,semester,credits,location);
+                                Course addedCourse = new Course(courseCode,courseName,instructor, new String[]{prerequisites},timings,semester,credits,location,limit);
                                 Course[] newCourses = new Course[courses.length+1];
                                 for(int i = 0;i<courses.length;i++){
                                     newCourses[i]=courses[i];
@@ -898,7 +1058,7 @@ public class Main {
 
                         User studentToUpdate = null;
                         for (User user : users) {
-                            if (user.getType()==0 && user.getEmail().equals(studentEmail)) {
+                            if ((user.getType()==0 || user.getType()==3) && user.getEmail().equals(studentEmail)) {
                                 studentToUpdate =  user;
                                 break;
                             }

@@ -12,6 +12,11 @@ public class Student extends User {
         this.semester = semester;
     }
 
+    public Student(String email, String password,int semester, int type) {
+        super(email, password,type);
+        this.semester = semester;
+    }
+
     @Override
     public int getSemester(){
         return semester;
@@ -59,6 +64,7 @@ public class Student extends User {
         newCourses[enrolledCourses.length] = course;
         enrolledCourses = newCourses;
         creditsEnrolled+=course.getCredits();
+        course.enroll();
     }
 
     @Override
@@ -98,6 +104,7 @@ public class Student extends User {
                 break;
             }
         }
+        enrolledCourses[ind].unEnroll();
         if(ind!=-1){
             Course[] newArr = new Course[enrolledCourses.length - 1];
             for(int i = 0;i<ind;i++){
@@ -113,7 +120,7 @@ public class Student extends User {
     }
 
     @Override
-    public void registerForCourse(final Course[] courses) {
+    public void registerForCourse(final Course[] courses) throws CourseFullException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the semester you want to view courses for: ");
         int semester = scanner.nextInt();
@@ -145,6 +152,11 @@ public class Student extends User {
         System.out.print("Enter the number of the course you want to enroll in: ");
         int selectedNumber = scanner.nextInt();
         Course selectedCourse = availableCourses.get(selectedNumber);
+        if(selectedCourse.getEnrolled()==selectedCourse.getEnrollmentLimit()){
+            throw new CourseFullException();
+        }else{
+            selectedCourse.enroll();
+        }
 
         if (selectedCourse == null) {
             System.out.println("Invalid course selection.");
@@ -227,4 +239,8 @@ public class Student extends User {
     public ArrayList<ProfessorCourse> getTeachingCourses() { throw new UnsupportedOperationException(); }
     @Override
     public void addCourse(ProfessorCourse crse) {throw new UnsupportedOperationException();}
+
+    // Dummy Methods TA.java uses
+    public void addTAcourse(Course course){ throw new UnsupportedOperationException(); }
+    public List<Course> getCoursesTA(){ throw new UnsupportedOperationException(); }
 }

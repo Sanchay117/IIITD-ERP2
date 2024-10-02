@@ -5,7 +5,7 @@ public class ProfessorCourse extends Course {
     private String syllabus;
 
     public ProfessorCourse(Course course,int enrollmentLimits,String officeHours,String syllabus){
-        super(course.getCourseCode(), course.getCourseName(), course.getInstructor(), course.getPrerequisites(), course.getTimings(), course.getSemester(), course.getCredits(),course.getLocation());
+        super(course.getCourseCode(), course.getCourseName(), course.getInstructor(), course.getPrerequisites(), course.getTimings(), course.getSemester(), course.getCredits(),course.getLocation(),enrollmentLimits);
         this.enrollmentLimit = enrollmentLimits;
         this.officeHours = officeHours;
         this.syllabus = syllabus;
