@@ -608,15 +608,20 @@ public class Main {
 
                         int chosenStd;
                         while (true){
-                            System.out.println("Enter Number Of Student:");
+                            System.out.println("Enter Number Of Student (or type -1 to exit):");
                             scanner = new Scanner(System.in);
                             chosenStd = scanner.nextInt();
+                            if(chosenStd==-1)break;
                             scanner.nextLine();
                             if(chosenStd<1 || chosenStd>students.size()){
                                 System.out.println("Invalid Student");
                                 continue;
                             }
                             break;
+                        }
+
+                        if(chosenStd==-1){
+                            continue;
                         }
 
                         User chosenStudent = students.get(chosenStd-1);
